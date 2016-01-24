@@ -8,6 +8,7 @@ Finds the longest, shortest, and number of paths, given a file of nodes.
 import sys
 sys.path.insert(0, 'files')
 
+# COUNT = 0
 
 def file_parse():
 	"""Processes graph structures from user specified file."""
@@ -55,10 +56,13 @@ def graph_create(line_list, graphs, nodes, edges):
 		edges = []
 		graph = []
 		nodes = {}
+		shortest_count = float('inf')
+		longest_count = -1
+		path_count = 0
 
 		for j in range(x, edge_count):
 			curr_node = lines[j].split()[0]
-			print("Edge: {}".format(lines[j]))
+			# print("Edge: {}".format(lines[j]))
 
 			if curr_node == prev_node:
 				edges.append(lines[j].split()[1])
@@ -69,7 +73,7 @@ def graph_create(line_list, graphs, nodes, edges):
 			
 			prev_node = curr_node
 
-			nodes[lines[j].split()[0]] = edges
+			nodes[int(lines[j].split()[0])] = [shortest_count, longest_count, path_count], edges
 		
 		if j == edge_count-1 and i < graph_count-1:
 			node_count = int(lines[j+1])
@@ -81,14 +85,35 @@ def graph_create(line_list, graphs, nodes, edges):
 
 	return graphs
 
-	# for graph in graphs:
-		# print("Graph: {}".format(graph))
 
-		# for graph in graphs:
-	# for nodes in graphs[0]:
-	# 	for val in nodes['1']:
-	# 		print(val)
-		# print(nodes['1'][0])
+def traverse(nodes, node, path_count, path_length):
+	"""Traverses graphs to find longest/shortest paths and total paths.
+
+	Keyword arguments:
+	node -- A list of nodes
+	"""
+	path_length += 1
+	
+	# For any connected_node, traverse that node unless it's the last node
+	for connected_node in node[1]:
+		try:
+			traverse(nodes, nodes[int(connected_node)], path_count, path_length)
+			
+		except:
+			# Total paths
+			nodes[1][0][2] += 1
+		
+			# Shortest path
+			if path_length < nodes[1][0][0]:
+				nodes[1][0][0] = path_length
+				print("Shortest path: {} ".format(path_length))
+
+			# Longest path
+			if path_length > nodes[1][0][1]:
+				nodes[1][0][1] = path_length
+				print("Longest path: {} ".format(path_length))
+
+			continue
 
 
 def shortest_path(graph):
@@ -99,28 +124,12 @@ def shortest_path(graph):
 	"""
 
 
-
 def longest_path(graph):
 	"""Finds the longest path in a graph
 
 	Keyword arguments:
 	graph -- A graph list
 	"""
-
-	l_path = []
-
-	# # Initialize
-	# LP[1]=0
-	# for i = 2 to N: 
-	# 	LP[i] = —infinity
-
-	# # loop
-	# for i = 1 to N-1:
-	# 	for j=i+1 to N:
-	# 		if (i,j) is an edge:
-	# 			LP[j] = MAX[ LP[j], 1+LP[i]  ]
- #        		# (update other properties here, if any)
-	# print()
 
 
 def total_paths(graph):
@@ -132,6 +141,20 @@ def total_paths(graph):
 
 
 if __name__ == "__main__":
-	print(file_parse())
+	# file_parse()
+	# print(file_parse())
+	# for graph in file_parse():
+	graphs = file_parse()
+	# count = 0
+	# for graph in graphs 
+	# print(graphs[0][0])
+	# for graph in graphs:
+	traverse(graphs[1][0], graphs[1][0][1], 0, 0, 0)
+	# for graph in graphs:
+		# print(graph[0], graph[0][1])
 	# for graph in (file_parse()):
+		# for nodes in graph:
+	# print(file_parse()[0][0]['1'][0:3])
+	# print(file_parse()[0][0]['1'][4])
+	# print(file_parse()[0][0]['1'][3][1])
 		# shortest_path(graph)
