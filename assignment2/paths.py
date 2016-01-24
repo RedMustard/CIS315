@@ -21,9 +21,6 @@ def file_process():
 
 	target_lines = []
 	graphs = []
-	graph = []
-	node = {}
-	edges = []
 
 	i = 0
 	for line in target:
@@ -39,36 +36,44 @@ def file_process():
 
 	x = 0	
 	for i in range(graph_count):
-		print("Graph Count: {} {}".format(graph_count, i))
-		print("Edgecount: {}".format(edge_count))
+		print("Graph number: {}".format(i+1))
+
+		prev_node = target_lines[0].split()[0]
+		edges = []
+		graph = []
+		nodes = {}
 
 		for j in range(x, edge_count):
+			curr_node = target_lines[j].split()[0]
 			print("Edge: {}".format(target_lines[j]))
-			# if j == 0:
-			# 	nodes[target_lines[j].split()[0]] = target_lines[j].split()[1]
-			# 	edges.append
-			# else:
-			# 	nodes[target_lines[j].split()[0]] += target_lines[j].split()[1]
-			# # edges.append(int(target_lines[j]))
-			# print(nodes)
+
+			if curr_node == prev_node:
+				edges.append(target_lines[j].split()[1])
+
+			else:
+				edges = []
+				edges.append(target_lines[j].split()[1])
+			
+			prev_node = curr_node
+
+			nodes[target_lines[j].split()[0]] = edges
 		
 		if j == edge_count-1 and i < graph_count-1:
 			node_count = int(target_lines[j+1])
 			x = edge_count + 2
 			edge_count += 2 + int(target_lines[j+2])
 
-		# graphs.append(graph)
+		graph.append(nodes)
+		graphs.append(graph)
 
+	# for graph in graphs:
+		# print("Graph: {}".format(graph))
 
-
-
-def create_graph(graph_count, list):
-	"""Dynamically creates graphs 
-
-	Keyword arguments:
-	count -- Number of graphs
-	list  -- List of graph 
-	"""
+		# for graph in graphs:
+	# for nodes in graphs[0]:
+	# 	for val in nodes['1']:
+	# 		print(val)
+		# print(nodes['1'][0])
 
 
 if __name__ == "__main__":
