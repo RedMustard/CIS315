@@ -121,11 +121,15 @@ def graph_traverse(nodes, node, path_count, path_length):
 				nodes[1][0][1] = path_length
 
 			continue
-
-
+	print(nodes[1][0][2])
 
 if __name__ == "__main__":
 	graphs = file_parse()
+
+	# print(graphs[0])
+	# print(graphs[0][0])
+	# print(graphs[0][0][0])
+	# print(graphs[0][0][0][0])
 	
 	i = 1
 	for graph in graphs:
