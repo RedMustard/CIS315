@@ -10,26 +10,79 @@ If the string can be split, the words will be output.
 
 import sys
 
-def open_dict():
-	"""Opens the dictionary file."""
+DICTSET = set()
+
+def read_dict():
+	"""Opens the dictionary file and stores the words into """
 
 	filename = 'diction10k.txt'
-
+	
 	try:
 		target = open(filename, 'r')
 		print("File opened.")
 	except:
 		print("Dictionary not found. Please make sure it is located in the same" 
 			+ " folder as strings.py")
+		sys.exit(1)
+
+	for line in target:
+		DICTSET.add(line.strip())
 
 
 def open_string_file():
 	"""Opens the user specified file containing the strings."""
 
-	with open(sys.argv[1], 'r') as my_file:
-		print(my_file.read())
+	filename = open(sys.argv[1], 'r')
+
+	parse_file(filename)
+
+
+def parse_file(file):
+	"""Parses the string file.
+
+	Keyword arguments:
+	file -- File to be parsed
+	"""
+	file_lines = []
+
+	for line in file:
+		if len(line) > 1:	## Skip any empty lines
+			file_lines.append(line.strip())
+	
+	string_count = int(file_lines[0]) ## NEEDED??
+
+	for i in range(1, string_count+1):
+		string = file_lines[i]
+		print("Phrase number: ", i)
+		print(string, "\n")
+
+		print("Iterative attempt: \n")
+		iterative_string_split(string)
+
+		print("Memoized attempt: \n")
+		recursive_string_split(string)
+
+		print("\n")
+
+
+def iterative_string_split(string):
+	"""Iterative algorithm for splitting a string into words.
+
+	Keyword arguments:
+	string - String to be split.
+	"""
+	phrase_count = 0
+
+
+def recursive_string_split(string):
+	"""Recursive memoized algorithm for splitting a string into words.
+
+	Keyword arguments:
+	string - String to be split.
+	"""
+	phrase_count = 0
 
 
 if __name__ == "__main__":
-	open_dict()
+	read_dict()
 	open_string_file()
