@@ -11,7 +11,6 @@ If the string can be split, the words will be output.
 import sys
 
 DICTSET = set()
-# MEMO = set()
 
 
 def read_dict():
@@ -51,7 +50,7 @@ def parse_file(file):
 		if len(line) > 1:	## Skip any empty lines
 			file_lines.append(line.strip())
 	
-	string_count = int(file_lines[0]) ## NEEDED??
+	string_count = int(file_lines[0])
 
 	for i in range(1, string_count+1):
 		string = file_lines[i]
@@ -66,6 +65,7 @@ def parse_file(file):
 		print("Memoized attempt:")
 		if recursive_string_split(string, 0, test, memo) is True:
 			print("YES, can be split.")
+			test.reverse()
 			print(test)
 		else:
 			print("NO, cannot be split.")
@@ -89,7 +89,7 @@ def recursive_string_split(string, i, store_list, memo_set):
 	"""
 	## Base Case
 	if string[i:] in DICTSET:
-		# print(string[i:]) ## Prints last string 
+		store_list.append(string[i:])
 		return True
 
 	## Disregard strings already looked at
@@ -98,10 +98,12 @@ def recursive_string_split(string, i, store_list, memo_set):
 
 	j = i
 	while j < len(string):
-		j += 1
+		
 		if string[i:j+1] in DICTSET:
 			if recursive_string_split(string, j+1, store_list, memo_set):
+				store_list.append(string[i:j+1])
 				return True
+		j += 1
 
 	memo_set.add(i)
 	return False 
