@@ -20,7 +20,7 @@ def read_dict():
 	
 	try:
 		target = open(filename, 'r')
-		print("File opened.")
+		# print("File opened.")
 	except:
 		print("Dictionary not found. Please make sure it is located in the same" 
 			+ " folder as strings.py")
@@ -46,39 +46,99 @@ def parse_file(file):
 	"""
 	file_lines = []
 
+	## For each line in the file, if it's not empty, store it
 	for line in file:
-		if len(line) > 1:	## Skip any empty lines
+		if len(line) > 1:
 			file_lines.append(line.strip())
 	
-	string_count = int(file_lines[0])
+	# string_count = int(file_lines[0])
+	run_algorithms(file_lines)
+
+
+def run_algorithms(string_list):
+	"""Calls the iterative and recursive string split algorithms.
+
+	Keyword arguments:
+	string_list -- List of strings from file
+	"""
+	string_count = int(string_list[0])
 
 	for i in range(1, string_count+1):
-		string = file_lines[i]
+		string = string_list[i]
 		print("Phrase number: ", i)
 		print(string, "\n")
-		test = []
+		split_string = []
 		memo = set()
 
-		print("Iterative attempt: \n")
-		iterative_string_split(string)
-
-		print("Memoized attempt:")
-		if recursive_string_split(string, 0, test, memo) is True:
+		print("Iterative attempt:")
+		if iterative_string_split(string, split_string) is True:
 			print("YES, can be split.")
-			test.reverse()
-			print(test)
+			print(print_string_list(split_string))
+		else:
+			print("NO, cannot be split.")
+
+		split_string = []
+
+		print("\nMemoized attempt:")
+		if recursive_string_split(string, 0, split_string, memo) is True:
+			print("YES, can be split.")
+			split_string.reverse()
+			print(print_string_list(split_string))
+
 		else:
 			print("NO, cannot be split.")
 
 		print("\n")
+		
 
-
-def iterative_string_split(string):
-	"""Iterative algorithm for splitting a string into words.
+def print_string_list(string_list):
+	"""Prints a list of strings.
 
 	Keyword arguments:
-	string - String to be split.
+	string_list -- A list containing strings.
 	"""
+	final_string = ""
+
+	for string in string_list:
+		final_string += string + " "
+
+	return final_string
+
+
+def iterative_string_split(string, split_string):
+	diff = 0
+	isWord = [[False for i in range(len(string)+1)] for i in range(len(string)+1)]
+	t = [[False for i in range(len(string)+1)] for i in range(len(string)+1)]
+
+	for i in range(len(string)):
+		for j in range(len(string)):
+			diff = i+j
+
+			if diff < len(string):
+				if string[j:diff+1] in DICTSET:
+					isWord[j][diff] = True
+					t[j][diff] = j
+
+				for k in range(j+1, diff+1):
+					if isWord[j][k-1] is True and isWord[k][diff] is True:
+						isWord[j][diff] = True
+						t[j][diff] = k
+						break
+
+	## Get the words
+	i = 0
+	j = len(string)-1
+
+	while i < j:
+		k = t[i][j]
+
+		if i == k:
+			split_string.append(string[i:j+1])
+			break
+		split_string.append(string[i:k])
+		i = k
+
+	return isWord[0][len(string)-1]
 
 
 def recursive_string_split(string, i, store_list, memo_set):
@@ -96,15 +156,16 @@ def recursive_string_split(string, i, store_list, memo_set):
 	if i in memo_set:
 		return False
 
+	## Iterate through the rest of the substrings
 	j = i
 	while j < len(string):
-		
 		if string[i:j+1] in DICTSET:
 			if recursive_string_split(string, j+1, store_list, memo_set):
 				store_list.append(string[i:j+1])
 				return True
 		j += 1
 
+	## Store already looked at false strings
 	memo_set.add(i)
 	return False 
 
