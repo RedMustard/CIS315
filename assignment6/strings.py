@@ -10,17 +10,17 @@ If the string can be split, the words will be output.
 
 import sys
 
-DICTSET = set()
+DICTSET = set()	## Set to hold dictionary
 
 
 def read_dict():
-	"""Opens the dictionary file and stores the words into """
+	"""Opens the dictionary file and stores the words into a hash set."""
 
 	filename = 'diction10k.txt'
 	
 	try:
 		target = open(filename, 'r')
-		# print("File opened.")
+
 	except:
 		print("Dictionary not found. Please make sure it is located in the same" 
 			+ " folder as strings.py")
@@ -51,7 +51,6 @@ def parse_file(file):
 		if len(line) > 1:
 			file_lines.append(line.strip())
 	
-	# string_count = int(file_lines[0])
 	run_algorithms(file_lines)
 
 
@@ -89,7 +88,7 @@ def run_algorithms(string_list):
 			print("NO, cannot be split.")
 
 		print("\n")
-		
+
 
 def print_string_list(string_list):
 	"""Prints a list of strings.
@@ -125,7 +124,7 @@ def iterative_string_split(string, split_string):
 						t[j][diff] = k
 						break
 
-	## Get the words
+	## Store the split strings
 	i = 0
 	j = len(string)-1
 
