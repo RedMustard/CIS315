@@ -33,8 +33,13 @@ def read_dict():
 def open_string_file():
 	"""Opens the user specified file containing the strings."""
 
-	filename = open(sys.argv[1], 'r')
+	try:
+		filename = open(sys.argv[1], 'r')
 
+	except:
+		print("File not found. Please make sure you entered one " +
+		 "and that it is spelled correctly.")
+		sys.exit(1)
 	parse_file(filename)
 
 
