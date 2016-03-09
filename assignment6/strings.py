@@ -8,7 +8,7 @@ string can be split into individual words (words are compared to a dictionary).
 If the string can be split, the words will be output.
 """
 
-import sys
+import sys, fileinput
 
 DICTSET = set()	## Set to hold dictionary
 
@@ -30,29 +30,12 @@ def read_dict():
 		DICTSET.add(line.strip())
 
 
-def open_string_file():
-	"""Opens the user specified file containing the strings."""
-
-	try:
-		filename = open(sys.argv[1], 'r')
-
-	except:
-		print("File not found. Please make sure you entered one " +
-		 "and that it is spelled correctly.")
-		sys.exit(1)
-	parse_file(filename)
-
-
-def parse_file(file):
-	"""Parses the string file.
-
-	Keyword arguments:
-	file -- File to be parsed
-	"""
+def parse_file():
+	"""Parses the string file."""
 	file_lines = []
 
 	## For each line in the file, if it's not empty, store it
-	for line in file:
+	for line in fileinput.input():
 		if len(line) > 1:
 			file_lines.append(line.strip())
 	
@@ -176,4 +159,5 @@ def recursive_string_split(string, i, store_list, memo_set):
 
 if __name__ == "__main__":
 	read_dict()
-	open_string_file()
+	# open_string_file()
+	parse_file()
