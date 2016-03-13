@@ -18,7 +18,6 @@ def parse_stream():
 			graph_count = int(line)
 
 		for i in range(graph_count):
-			# print("Graph number: ", i+1)
 			try:
 				node_count = int(next(file).strip())
 				edge_count = int(next(file).strip())
@@ -41,7 +40,8 @@ def parse_stream():
 
 
 def init_distance(size, n):
-	"""Determines the distance [INSERT MORE HERE]
+	"""
+	Creates the distance list to hold distances between nodes.
 
 	Keyword arguments:
 	size - (int) - total nodes
@@ -57,6 +57,7 @@ def init_distance(size, n):
 
 def find_shortest_path(adjacency_list, size):
 	"""
+	Find the shortest path between nodes.
 
 	Keyword arguments:
 	adjacency_list - (list) - list of edges
@@ -77,6 +78,7 @@ def find_shortest_path(adjacency_list, size):
 
 def find_longest_path(adjacency_list, size):
 	"""
+	Finds the longest path between nodes.
 
 	Keyword arguments:
 	adjacency_list - (list) - list of edges
@@ -94,8 +96,10 @@ def find_longest_path(adjacency_list, size):
 
 	return distance[size]
 
+
 def number_of_paths(adjacency_list, size):
 	"""
+	Finds the total number of paths.
 
 	Keyword arguments:
 	adjacency_list - (list) - list of edges
