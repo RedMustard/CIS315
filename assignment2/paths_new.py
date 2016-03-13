@@ -7,8 +7,8 @@ Finds the longest, shortest, and number of paths, given a file of nodes.
 
 import fileinput
 
-def parse_file():
-	"""Parses the string file."""
+def parse_stream():
+	"""Parses the graph file via input stream."""
 	file_lines = []
 
 	file = fileinput.input()
@@ -18,33 +18,34 @@ def parse_file():
 			graph_count = int(line)
 
 		for i in range(graph_count):
-			print("Graph number: ", i+1)
+			# print("Graph number: ", i+1)
 			try:
 				node_count = int(next(file).strip())
 				edge_count = int(next(file).strip())
 			except:
 				break
 
-			a = []
+			edge_list = []
 
 			for j in range(node_count):
-				a.append([])
+				edge_list.append([])
 				
 			for x in range(1, edge_count*2, 2):
 				index = next(file).strip().split()
-				a[int(index[0])].append(index[1])
-			# print(a)
-			print("Shortest Path: ", find_shortest_path(a, node_count))
-			print("Longest Path: ", find_longest_path(a, node_count))
-			print("Number of Paths: ", number_of_paths(a, node_count), "\n")
+				edge_list[int(index[0])].append(index[1])
+
+			print("Graph number: ", i+1)
+			print("Shortest Path: ", find_shortest_path(edge_list, node_count))
+			print("Longest Path: ", find_longest_path(edge_list, node_count))
+			print("Number of Paths: ", number_of_paths(edge_list, node_count), "\n")
 
 
 def init_distance(size, n):
 	"""Determines the distance [INSERT MORE HERE]
 
 	Keyword arguments:
-	size - (int) - 
-	n - (int) - 
+	size - (int) - total nodes
+	n - (int) - distance
 	"""
 	distance = []
 
@@ -58,8 +59,8 @@ def find_shortest_path(adjacency_list, size):
 	"""
 
 	Keyword arguments:
-	adjacency_list - (list) -
-	size - (int) - 
+	adjacency_list - (list) - list of edges
+	size - (int) - total nodes
 	"""
 	distance = init_distance(size, float('inf'))
 	distance[1] = 0
@@ -75,7 +76,12 @@ def find_shortest_path(adjacency_list, size):
 
 
 def find_longest_path(adjacency_list, size):
-	""" """
+	"""
+
+	Keyword arguments:
+	adjacency_list - (list) - list of edges
+	size - (int) - total nodes
+	"""
 	distance = init_distance(size, -1)
 	distance[1] = 0
 
@@ -89,7 +95,12 @@ def find_longest_path(adjacency_list, size):
 	return distance[size]
 
 def number_of_paths(adjacency_list, size):
-	""" """
+	"""
+
+	Keyword arguments:
+	adjacency_list - (list) - list of edges
+	size - (int) - total nodes
+	"""
 	path_count = init_distance(size, 0)
 	path_count[1] = 1
 
@@ -101,5 +112,6 @@ def number_of_paths(adjacency_list, size):
 
 	return path_count[size]
 
+
 if __name__ == "__main__":
-	parse_file()
+	parse_stream()
